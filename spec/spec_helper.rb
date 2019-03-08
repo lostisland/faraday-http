@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+require 'simplecov'
+SimpleCov.start do
+  add_filter '/spec/'
+  minimum_coverage 95
+  minimum_coverage_by_file 80
+end
+
 require 'bundler/setup'
 require 'faraday/http'
 require 'faraday_specs_setup'
