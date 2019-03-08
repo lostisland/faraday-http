@@ -58,6 +58,8 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.8.0)
     rspec-support (3.8.0)
+    rspec_junit_formatter (0.4.1)
+      rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (0.65.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -92,6 +94,7 @@ DEPENDENCIES
   faraday-http!
   rake (~> 10.0)
   rspec (~> 3.0)
+  rspec_junit_formatter (~> 0.4)
   rubocop (~> 0.65)
   simplecov
   webmock (~> 3.4)
