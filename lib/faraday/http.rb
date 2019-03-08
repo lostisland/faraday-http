@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require 'faraday'
 require 'faraday/http/version'
+require 'faraday/http/adapter'
 
 module Faraday
   module Http

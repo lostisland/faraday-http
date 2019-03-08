@@ -4,3 +4,5 @@ source 'https://rubygems.org'
 
 # Specify your gem's dependencies in faraday-http.gemspec
 gemspec
+
+gem 'faraday', github: 'lostisland/faraday', branch: 'support-standalone-adapters'

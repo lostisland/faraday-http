@@ -2,6 +2,7 @@
 
 require 'bundler/setup'
 require 'faraday/http'
+require 'faraday_specs_setup'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -13,4 +14,7 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  config.order = :random
+  Kernel.srand config.seed
 end
