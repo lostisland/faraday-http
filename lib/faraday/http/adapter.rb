@@ -20,7 +20,7 @@ module Faraday
       private
 
       def perform_request(env)
-        conn = setup_connetion(env)
+        conn = setup_connection(env)
 
         resp = conn.request env[:method], env[:url], body: env[:body]
         save_response(env, resp.code, resp.body.to_s, resp.headers, resp.status.reason)
