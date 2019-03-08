@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
 module Faraday
-  module Http
+  class Adapter
     # HTTP.rb adapter.
-    class Adapter < Faraday::Adapter
-      dependency 'http'
-
+    class HTTP < Faraday::Adapter
       # Takes the environment and performs the request.
       #
       # @param env [Faraday::Env] the request environment.
