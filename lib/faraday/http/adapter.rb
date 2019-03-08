@@ -30,7 +30,7 @@ module Faraday
         raise Faraday::ConnectionFailed, $ERROR_INFO
       end
 
-      def setup_connetion(env)
+      def setup_connection(env)
         conn = ::HTTP
 
         request_config(conn, env[:request]) if env[:request]
