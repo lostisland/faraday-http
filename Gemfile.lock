@@ -1,7 +1,6 @@
 GIT
   remote: git://github.com/lostisland/faraday.git
-  revision: 292980f69f693cb1add071606ce41715f23815aa
-  branch: support-standalone-adapters
+  revision: 224dd98ebedd35de284b19893e0f34f3fc4b289f
   specs:
     faraday (0.15.3)
       multipart-post (>= 1.2, < 3)

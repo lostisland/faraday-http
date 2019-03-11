@@ -4,6 +4,7 @@ require 'faraday'
 require 'faraday/http/version'
 require 'faraday/adapter/http'
 
+# Extend the main Faraday module.
 module Faraday
   module Http
     class Error < StandardError; end
