@@ -11,7 +11,7 @@ shared_ruby_steps: &shared_ruby_steps
           - "{{ .Environment.CACHE_KEY_PREFIX }}-v1-bundler-deps-{{ .Branch }}"
     - run:
         name: Bundle Install
-        command: bundle install --path vendor/bundle --jobs 7 --retry 15
+        command: gem install bundler --no-document && bundle install --path vendor/bundle --jobs 7 --retry 15
     - run:
         name: Run tests
         command: bundle exec rspec --require rspec_junit_formatter --format progress --format RspecJunitFormatter --out ~/test-results/rspec/results.xml
@@ -61,29 +61,21 @@ jobs:
   ruby26:
     docker:
       - image: circleci/ruby:2.6
-        environment:
-          BUNDLER_VERSION: 2.0.1
     <<: *shared_ruby_steps
 
   ruby25:
     docker:
       - image: circleci/ruby:2.5
-        environment:
-          BUNDLER_VERSION: 2.0.1
     <<: *shared_ruby_steps
 
   ruby24:
     docker:
       - image: circleci/ruby:2.4
-        environment:
-          BUNDLER_VERSION: 2.0.1
     <<: *shared_ruby_steps
 
   ruby23:
     docker:
       - image: circleci/ruby:2.3
-        environment:
-          BUNDLER_VERSION: 2.0.1
     <<: *shared_ruby_steps
 
   # Currently not in use
@@ -91,7 +83,6 @@ jobs:
     docker:
       - image: circleci/jruby:9.2
         environment:
-          BUNDLER_VERSION: 2.0.1
           JRUBY_OPTS: "--debug"
     <<: *shared_ruby_steps
 
