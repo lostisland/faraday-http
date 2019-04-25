@@ -26,6 +26,12 @@ module Faraday
         raise Faraday::TimeoutError, $ERROR_INFO
       rescue ::HTTP::ConnectionError
         raise Faraday::ConnectionFailed, $ERROR_INFO
+      rescue StandardError => e
+        if defined?(OpenSSL) && e.is_a?(OpenSSL::SSL::SSLError)
+          raise Faraday::SSLError, e
+        end
+
+        raise
       end
 
       def setup_connection(env)
