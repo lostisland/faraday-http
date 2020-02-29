@@ -9,6 +9,9 @@ Style/DoubleNegation:
 Metrics/LineLength:
   Max: 100
 
+Metrics/AbcSize:
+  Max: 20
+
 Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb
