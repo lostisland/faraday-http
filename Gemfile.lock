@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/lostisland/faraday.git
-  revision: e2c56e90c9b12f69f84a536ae341617672bd52b7
+  revision: 5d24afc373585c8a58aee187ff0663af17125743
+  branch: master
   specs:
     faraday (1.0.0)
       multipart-post (>= 1.2, < 3)
@@ -35,6 +36,7 @@ GEM
     http_parser.rb (0.6.0)
     jaro_winkler (1.5.2)
     json (2.2.0)
+    multipart-parser (0.1.1)
     multipart-post (2.1.1)
     parallel (1.14.0)
     parser (2.6.0.0)
@@ -91,6 +93,7 @@ DEPENDENCIES
   bundler (~> 2.0)
   faraday!
   faraday-http!
+  multipart-parser
   rake (~> 13.0)
   rspec (~> 3.0)
   rspec_junit_formatter (~> 0.4)
