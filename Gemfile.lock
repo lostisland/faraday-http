@@ -1,8 +1,8 @@
 GIT
-  remote: git://github.com/lostisland/faraday.git
-  revision: 224dd98ebedd35de284b19893e0f34f3fc4b289f
+  remote: https://github.com/lostisland/faraday.git
+  revision: e2c56e90c9b12f69f84a536ae341617672bd52b7
   specs:
-    faraday (0.15.3)
+    faraday (1.0.0)
       multipart-post (>= 1.2, < 3)
 
 PATH
@@ -35,7 +35,7 @@ GEM
     http_parser.rb (0.6.0)
     jaro_winkler (1.5.2)
     json (2.2.0)
-    multipart-post (2.0.0)
+    multipart-post (2.1.1)
     parallel (1.14.0)
     parser (2.6.0.0)
       ast (~> 2.4.0)
@@ -43,7 +43,7 @@ GEM
     psych (3.1.0)
     public_suffix (3.0.3)
     rainbow (3.0.0)
-    rake (10.5.0)
+    rake (13.0.1)
     rspec (3.8.0)
       rspec-core (~> 3.8.0)
       rspec-expectations (~> 3.8.0)
@@ -91,7 +91,7 @@ DEPENDENCIES
   bundler (~> 2.0)
   faraday!
   faraday-http!
-  rake (~> 10.0)
+  rake (~> 13.0)
   rspec (~> 3.0)
   rspec_junit_formatter (~> 0.4)
   rubocop (~> 0.65)
