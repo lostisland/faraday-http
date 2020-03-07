@@ -6,6 +6,15 @@ AllCops:
 Style/DoubleNegation:
   Enabled: false
 
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
 Metrics/LineLength:
   Max: 100
 
