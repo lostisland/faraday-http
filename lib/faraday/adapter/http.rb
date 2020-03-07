@@ -23,8 +23,8 @@ module Faraday
         conn = setup_connection(env)
 
         resp = conn.request env[:method], env[:url],
-          body: env[:body],
-          ssl_context: ssl_context(env[:ssl])
+                            body: env[:body],
+                            ssl_context: ssl_context(env[:ssl])
 
         save_response(env, resp.code, resp.body.to_s, resp.headers, resp.status.reason)
       rescue ::HTTP::TimeoutError
@@ -62,8 +62,8 @@ module Faraday
 
       def ssl_context(ssl)
         params = {}
-        [
-          :ca_file, :ca_path, :cert_store, :verify_depth,
+        %i[
+          ca_file ca_path cert_store verify_depth
         ].each do |key|
           if (value = ssl[key])
             params[key] = value
@@ -98,11 +98,11 @@ module Faraday
 
       def ssl_client_cert(cert)
         case cert
-        when NilClass then return
+        when NilClass then nil
         when String
-          return OpenSSL::X509::Certificate.new(File.read(cert))
+          OpenSSL::X509::Certificate.new(File.read(cert))
         when OpenSSL::X509::Certificate
-          return cert
+          cert
         else
           raise Faraday::Error, "invalid ssl.client_cert: #{cert.inspect}"
         end
@@ -110,11 +110,11 @@ module Faraday
 
       def ssl_client_key(cert)
         case cert
-        when NilClass then return
+        when NilClass then nil
         when String
-          return OpenSSL::PKey::RSA.new(File.read(cert))
+          OpenSSL::PKey::RSA.new(File.read(cert))
         when OpenSSL::PKey::RSA, OpenSSL::PKey::DSA
-          return cert
+          cert
         else
           raise Faraday::Error, "invalid ssl.client_key: #{cert.inspect}"
         end
