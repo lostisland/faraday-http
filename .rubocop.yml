@@ -15,13 +15,23 @@ Style/HashTransformKeys:
 Style/HashTransformValues:
   Enabled: true
 
+Metrics/MethodLength:
+  Max: 30
+
 Metrics/LineLength:
   Max: 100
 
 Metrics/AbcSize:
-  Max: 20
+  Max: 25
 
 Metrics/BlockLength:
   Exclude:
     - spec/**/*.rb
     - faraday-http.gemspec
+
+Metrics/CyclomaticComplexity:
+  Max: 30
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
