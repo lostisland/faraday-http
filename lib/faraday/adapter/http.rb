@@ -27,9 +27,7 @@ module Faraday
       rescue ::HTTP::ConnectionError
         raise Faraday::ConnectionFailed, $ERROR_INFO
       rescue StandardError => e
-        if defined?(OpenSSL) && e.is_a?(OpenSSL::SSL::SSLError)
-          raise Faraday::SSLError, e
-        end
+        raise Faraday::SSLError, e if defined?(OpenSSL) && e.is_a?(OpenSSL::SSL::SSLError)
 
         raise
       end

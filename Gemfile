@@ -2,7 +2,9 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in faraday-http.gemspec
 gemspec
 
-gem 'faraday', github: 'lostisland/faraday'
+gem 'faraday',
+    git: 'https://github.com/lostisland/faraday.git',
+    branch: 'master'
+gem 'multipart-parser'
