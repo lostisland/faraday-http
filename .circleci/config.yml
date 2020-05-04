@@ -73,11 +73,6 @@ jobs:
       - image: circleci/ruby:2.4
     <<: *shared_ruby_steps
 
-  ruby23:
-    docker:
-      - image: circleci/ruby:2.3
-    <<: *shared_ruby_steps
-
   # Currently not in use
   jruby92:
     docker:
@@ -118,12 +113,8 @@ workflows:
       - ruby24:
           requires:
             - linting
-      - ruby23:
-          requires:
-            - linting
       - deploy:
           requires:
-            - ruby23
             - ruby24
             - ruby25
             - ruby26
