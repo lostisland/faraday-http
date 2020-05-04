@@ -1,7 +1,7 @@
 AllCops:
   DisplayCopNames: true
   DisplayStyleGuide: true
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
 
 Style/DoubleNegation:
   Enabled: false
@@ -18,7 +18,7 @@ Style/HashTransformValues:
 Metrics/MethodLength:
   Max: 30
 
-Metrics/LineLength:
+Layout/LineLength:
   Max: 100
 
 Metrics/AbcSize:
