@@ -3,8 +3,8 @@
 require 'simplecov'
 SimpleCov.start do
   add_filter '/spec/'
-  minimum_coverage 95
-  minimum_coverage_by_file 80
+  minimum_coverage 75
+  minimum_coverage_by_file 75
 end
 
 require 'bundler/setup'
