@@ -13,6 +13,7 @@ tmp
 ## BUNDLER
 *.gem
 .bundle
+Gemfile.lock
 vendor/bundle
 
 ## IDEs

@@ -67,6 +67,8 @@ GEM
       rexml
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
+    rubocop-performance (1.5.2)
+      rubocop (>= 0.71.0)
     ruby-progressbar (1.10.1)
     safe_yaml (1.0.5)
     simplecov (0.18.5)
@@ -93,7 +95,8 @@ DEPENDENCIES
   rake (~> 13.0)
   rspec (~> 3.0)
   rspec_junit_formatter (~> 0.4)
-  rubocop (~> 0.65)
+  rubocop (~> 0.82.0)
+  rubocop-performance (~> 1.0)
   simplecov
   webmock (~> 3.4)
 
