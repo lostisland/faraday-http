@@ -4,10 +4,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'faraday',
-    git: 'https://github.com/lostisland/faraday.git',
-    branch: 'master'
-
 # Required gems to run all Faraday tests
 gem 'multipart-parser'
 
