@@ -40,7 +40,7 @@ module Faraday
       def setup_connection(env)
         conn = ::HTTP
 
-        request_config(conn, env[:request]) if env[:request]
+        conn = request_config(conn, env[:request]) if env[:request]
         conn.headers(env.request_headers)
       end
 
