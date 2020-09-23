@@ -7,7 +7,6 @@ SimpleCov.start do
   minimum_coverage_by_file 75
 end
 
-require 'bundler/setup'
 require 'faraday/http'
 require 'faraday_specs_setup'
 
