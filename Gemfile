@@ -8,6 +8,6 @@ gemspec
 gem 'multipart-parser'
 
 group :lint, :development do
-  gem 'rubocop', '~> 0.82.0'
+  gem 'rubocop', '~> 0.91.1'
   gem 'rubocop-performance', '~> 1.0'
 end
