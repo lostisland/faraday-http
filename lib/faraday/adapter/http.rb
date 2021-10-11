@@ -46,7 +46,7 @@ module Faraday
 
       def request_config(conn, config)
         if (timeout = config[:timeout])
-          conn = conn.timeout(connect: timeout, read: timeout, write: timeout)
+          conn = conn.timeout(timeout)
         end
 
         if (timeout = config[:open_timeout])
