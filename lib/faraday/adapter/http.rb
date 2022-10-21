@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
+require 'http'
+
 module Faraday
   class Adapter
     # HTTP.rb adapter.
     class HTTP < Faraday::Adapter
-      dependency 'http'
 
       # Takes the environment and performs the request.
       #
@@ -20,13 +21,22 @@ module Faraday
       private
 
       def perform_request(env)
-        conn = setup_connection(env)
+        connection = setup_connection(env)
 
-        resp = conn.request env[:method], env[:url],
+        response = connection.request env[:method], env[:url],
                             body: env[:body],
                             ssl_context: ssl_context(env[:ssl])
 
-        save_response(env, resp.code, resp.body.to_s, resp.headers, resp.status.reason)
+        if env.stream_response?
+          env.stream_response do |&on_data|
+            request_with_wrapped_block(response, env, &on_data)
+          end
+          body = ''
+        else
+          body = response.body.to_s
+        end
+
+        save_response(env, response.code, body, response.headers, response.status.reason)
       rescue ::HTTP::TimeoutError
         raise Faraday::TimeoutError, $ERROR_INFO
       rescue ::HTTP::ConnectionError
@@ -35,6 +45,14 @@ module Faraday
         raise Faraday::SSLError, e if defined?(OpenSSL) && e.is_a?(OpenSSL::SSL::SSLError)
 
         raise
+      end
+
+      def request_with_wrapped_block(response, env)
+        if block_given?
+          while (chunk = response.body.readpartial) do
+            yield(chunk, env)
+          end
+        end
       end
 
       def setup_connection(env)
