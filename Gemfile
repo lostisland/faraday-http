@@ -5,8 +5,6 @@ source 'https://rubygems.org'
 gemspec
 
 # Required gems to run all Faraday tests
-gem 'multipart-parser'
-gem 'faraday-multipart'
 
 group :lint, :development do
   gem 'rubocop', '~> 0.91.1'
