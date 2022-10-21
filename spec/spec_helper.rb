@@ -8,7 +8,6 @@ SimpleCov.start do
 end
 
 require 'faraday/http'
-require 'faraday/multipart'
 require 'faraday_specs_setup'
 
 RSpec.configure do |config|
