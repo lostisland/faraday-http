@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/lostisland/faraday-http'
   spec.metadata['changelog_uri'] = 'https://github.com/lostisland/faraday-http/releases'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files = Dir.glob('lib/**/*') + %w[README.md LICENSE]
   spec.require_paths = ['lib']
@@ -32,5 +33,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'webmock', '~> 3.4'
-  spec.metadata['rubygems_mfa_required'] = 'true'
 end
