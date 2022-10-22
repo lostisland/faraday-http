@@ -15,16 +15,17 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/lostisland/faraday-http'
   spec.license       = 'MIT'
 
-  spec.required_ruby_version = '>= 2.5'
+  spec.required_ruby_version = '>= 2.6'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/lostisland/faraday-http'
   spec.metadata['changelog_uri'] = 'https://github.com/lostisland/faraday-http/releases'
+  spec.metadata['rubygems_mfa_required'] = 'true'
 
   spec.files = Dir.glob('lib/**/*') + %w[README.md LICENSE]
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'faraday', '~> 1.0'
+  spec.add_dependency 'faraday', '~> 2.5'
   spec.add_dependency 'http', '>= 4.0', '< 6'
 
   spec.add_development_dependency 'bundler', '~> 2.0'

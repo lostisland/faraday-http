@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
+require 'http'
+
 module Faraday
   class Adapter
     # HTTP.rb adapter.
     class HTTP < Faraday::Adapter
-      dependency 'http'
-
       # Takes the environment and performs the request.
       #
       # @param env [Faraday::Env] the request environment.
@@ -20,13 +20,22 @@ module Faraday
       private
 
       def perform_request(env)
-        conn = setup_connection(env)
+        connection = setup_connection(env)
 
-        resp = conn.request env[:method], env[:url],
-                            body: env[:body],
-                            ssl_context: ssl_context(env[:ssl])
+        response = connection.request env[:method], env[:url],
+                                      body: env[:body],
+                                      ssl_context: ssl_context(env[:ssl])
 
-        save_response(env, resp.code, resp.body.to_s, resp.headers, resp.status.reason)
+        if env.stream_response?
+          env.stream_response do |&on_data|
+            request_with_wrapped_block(response, env, &on_data)
+          end
+          body = ''
+        else
+          body = response.body.to_s
+        end
+
+        save_response(env, response.code, body, response.headers, response.status.reason)
       rescue ::HTTP::TimeoutError
         raise Faraday::TimeoutError, $ERROR_INFO
       rescue ::HTTP::ConnectionError
@@ -35,6 +44,14 @@ module Faraday
         raise Faraday::SSLError, e if defined?(OpenSSL) && e.is_a?(OpenSSL::SSL::SSLError)
 
         raise
+      end
+
+      def request_with_wrapped_block(response, env)
+        return unless block_given?
+
+        while (chunk = response.body.readpartial)
+          yield(chunk, env)
+        end
       end
 
       def setup_connection(env)
@@ -97,27 +114,19 @@ module Faraday
       end
 
       def ssl_client_cert(cert)
-        case cert
-        when NilClass then nil
-        when String
-          OpenSSL::X509::Certificate.new(File.read(cert))
-        when OpenSSL::X509::Certificate
-          cert
-        else
-          raise Faraday::Error, "invalid ssl.client_cert: #{cert.inspect}"
-        end
+        return nil if cert.nil?
+        return OpenSSL::X509::Certificate.new(File.read(cert)) if cert.is_a(String)
+        return cert if cert.is_a?(OpenSSL::X509::Certificate)
+
+        raise Faraday::Error, "invalid ssl.client_cert: #{cert.inspect}"
       end
 
       def ssl_client_key(cert)
-        case cert
-        when NilClass then nil
-        when String
-          OpenSSL::PKey::RSA.new(File.read(cert))
-        when OpenSSL::PKey::RSA, OpenSSL::PKey::DSA
-          cert
-        else
-          raise Faraday::Error, "invalid ssl.client_key: #{cert.inspect}"
-        end
+        return nil if cert.nil?
+        return OpenSSL::PKey::RSA.new(File.read(cert)) if cert.is_a(String)
+        return cert if cert.is_a?(OpenSSL::PKey::RSA, OpenSSL::PKey::DSA)
+
+        raise Faraday::Error, "invalid ssl.client_key: #{cert.inspect}"
       end
     end
   end

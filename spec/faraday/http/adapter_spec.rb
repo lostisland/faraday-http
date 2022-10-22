@@ -2,7 +2,7 @@
 
 RSpec.describe Faraday::Adapter::HTTP do
   features :request_body_on_query_methods, :reason_phrase_parse, :trace_method, :connect_method,
-           :skip_response_body_on_head, :local_socket_binding
+           :skip_response_body_on_head, :local_socket_binding, :streaming
 
   it_behaves_like 'an adapter'
 
@@ -20,10 +20,9 @@ RSpec.describe Faraday::Adapter::HTTP do
 
   let(:conn) do
     conn_options[:ssl] ||= {}
-    conn_options[:ssl][:ca_file] ||= ENV['SSL_FILE']
+    conn_options[:ssl][:ca_file] ||= ENV.fetch('SSL_FILE', nil)
 
     Faraday.new(remote, conn_options) do |conn|
-      conn.request :multipart
       conn.request :url_encoded
       conn.response :raise_error
       conn.adapter described_class, *adapter_options
