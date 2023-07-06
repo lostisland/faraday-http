@@ -115,7 +115,7 @@ module Faraday
 
       def ssl_client_cert(cert)
         return nil if cert.nil?
-        return OpenSSL::X509::Certificate.new(File.read(cert)) if cert.is_a(String)
+        return OpenSSL::X509::Certificate.new(File.read(cert)) if cert.is_a?(String)
         return cert if cert.is_a?(OpenSSL::X509::Certificate)
 
         raise Faraday::Error, "invalid ssl.client_cert: #{cert.inspect}"
@@ -123,8 +123,8 @@ module Faraday
 
       def ssl_client_key(cert)
         return nil if cert.nil?
-        return OpenSSL::PKey::RSA.new(File.read(cert)) if cert.is_a(String)
-        return cert if cert.is_a?(OpenSSL::PKey::RSA, OpenSSL::PKey::DSA)
+        return OpenSSL::PKey::RSA.new(File.read(cert)) if cert.is_a?(String)
+        return cert if cert.is_a?(OpenSSL::PKey::RSA) || cert.is_a?(OpenSSL::PKey::DSA)
 
         raise Faraday::Error, "invalid ssl.client_key: #{cert.inspect}"
       end
