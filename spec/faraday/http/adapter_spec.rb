@@ -68,4 +68,35 @@ RSpec.describe Faraday::Adapter::HTTP do
       end.to raise_error(Faraday::SSLError, 'foo')
     end
   end
+
+  context 'when client certificate and private key are provided' do
+    let(:conn) do
+      conn_options[:ssl] ||= {}
+      conn_options[:ssl][:client_cert] ||= OpenSSL::X509::Certificate.new
+      conn_options[:ssl][:private_key] ||= OpenSSL::PKey::RSA.new
+
+      Faraday.new(remote, conn_options) do |conn|
+        conn.request :url_encoded
+        conn.response :raise_error
+        conn.adapter described_class, *adapter_options
+      end
+    end
+
+    subject { conn.get('/', nil, { user_agent: 'Agent Faraday' }) }
+
+    it 'makes a request successfully' do
+      stub_request(:get, 'https://example.com/')
+        .with(
+          headers: {
+            'Connection' => 'close',
+            'Host' => 'example.com',
+            'User-Agent' => 'Agent Faraday',
+            'X-Faraday-Adapter' => 'HTTP'
+          }
+        )
+        .to_return(status: 200, body: '', headers: {})
+
+      expect(subject).to be_success
+    end
+  end
 end
