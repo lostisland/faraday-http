@@ -6,7 +6,6 @@ log
 pkg/*
 tmp
 .rvmrc
-.ruby-version
 .yardoc
 .rspec_status
 
