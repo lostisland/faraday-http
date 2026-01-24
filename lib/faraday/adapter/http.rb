@@ -80,7 +80,7 @@ module Faraday
       def ssl_context(ssl)
         params = {}
         %i[
-          ca_file ca_path cert_store verify_depth
+          ca_file ca_path cert_store ciphers verify_depth
         ].each do |key|
           if (value = ssl[key])
             params[key] = value
