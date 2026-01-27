@@ -99,4 +99,38 @@ RSpec.describe Faraday::Adapter::HTTP do
       expect(subject).to be_success
     end
   end
+
+  context 'when a cipher is provided' do
+    let(:conn) do
+      conn_options[:ssl] ||= {}
+      conn_options[:ssl][:ciphers] = 'ECDHE-ECDSA-AES128-GCM-SHA256'
+
+      Faraday.new(remote, conn_options) do |conn|
+        conn.request :url_encoded
+        conn.response :raise_error
+        conn.adapter described_class, *adapter_options
+      end
+    end
+
+    let(:ssl_context_spy) { instance_spy(OpenSSL::SSL::SSLContext) }
+
+    it 'is set as part of the OpenSSL context' do
+      allow(OpenSSL::SSL::SSLContext).to receive(:new).and_return(ssl_context_spy)
+      stub_request(:get, 'https://example.com')
+        .with(
+          headers: {
+            'Connection' => 'close',
+            'Host' => 'example.com',
+            'User-Agent' => 'Agent Faraday',
+            'X-Faraday-Adapter' => 'HTTP'
+          }
+        )
+        .to_return(status: 200, body: '', headers: {})
+
+      conn.get('/', nil, { user_agent: 'Agent Faraday' })
+
+      expect(ssl_context_spy).to have_received(:set_params)
+        .with hash_including(ciphers: 'ECDHE-ECDSA-AES128-GCM-SHA256')
+    end
+  end
 end
