@@ -112,9 +112,10 @@ RSpec.describe Faraday::Adapter::HTTP do
       end
     end
 
-    subject { conn.get('/', nil, { user_agent: 'Agent Faraday' }) }
+    let(:ssl_context_spy) { instance_spy(OpenSSL::SSL::SSLContext) }
 
-    it 'makes a request successfully' do
+    it 'is set as part of the OpenSSL context' do
+      allow(OpenSSL::SSL::SSLContext).to receive(:new).and_return(ssl_context_spy)
       stub_request(:get, 'https://example.com')
         .with(
           headers: {
@@ -126,7 +127,10 @@ RSpec.describe Faraday::Adapter::HTTP do
         )
         .to_return(status: 200, body: '', headers: {})
 
-      expect(subject).to be_success
+      conn.get('/', nil, { user_agent: 'Agent Faraday' })
+
+      expect(ssl_context_spy).to have_received(:set_params)
+        .with hash_including(ciphers: 'ECDHE-ECDSA-AES128-GCM-SHA256')
     end
   end
 end
