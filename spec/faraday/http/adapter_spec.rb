@@ -73,7 +73,7 @@ RSpec.describe Faraday::Adapter::HTTP do
     let(:conn) do
       conn_options[:ssl] ||= {}
       conn_options[:ssl][:client_cert] ||= OpenSSL::X509::Certificate.new
-      conn_options[:ssl][:private_key] ||= OpenSSL::PKey::RSA.new
+      conn_options[:ssl][:private_key] ||= OpenSSL::PKey::RSA.new(2048)
 
       Faraday.new(remote, conn_options) do |conn|
         conn.request :url_encoded
