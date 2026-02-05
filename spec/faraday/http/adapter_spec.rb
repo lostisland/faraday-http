@@ -69,11 +69,11 @@ RSpec.describe Faraday::Adapter::HTTP do
     end
   end
 
-  context 'when client certificate and private key are provided' do
+  context 'when client certificate and client key are provided' do
     let(:conn) do
       conn_options[:ssl] ||= {}
       conn_options[:ssl][:client_cert] ||= OpenSSL::X509::Certificate.new
-      conn_options[:ssl][:private_key] ||= OpenSSL::PKey::RSA.new(2048)
+      conn_options[:ssl][:client_key] ||= OpenSSL::PKey::RSA.new(2048)
 
       Faraday.new(remote, conn_options) do |conn|
         conn.request :url_encoded
@@ -81,6 +81,8 @@ RSpec.describe Faraday::Adapter::HTTP do
         conn.adapter described_class, *adapter_options
       end
     end
+
+    let(:ssl_context_spy) { instance_spy(OpenSSL::SSL::SSLContext) }
 
     subject { conn.get('/', nil, { user_agent: 'Agent Faraday' }) }
 
@@ -97,6 +99,28 @@ RSpec.describe Faraday::Adapter::HTTP do
         .to_return(status: 200, body: '', headers: {})
 
       expect(subject).to be_success
+    end
+
+    it 'sets client certificate and client key as part of the OpenSSL context' do
+      allow(OpenSSL::SSL::SSLContext).to receive(:new).and_return(ssl_context_spy)
+      stub_request(:get, 'https://example.com/')
+        .with(
+          headers: {
+            'Connection' => 'close',
+            'Host' => 'example.com',
+            'User-Agent' => 'Agent Faraday',
+            'X-Faraday-Adapter' => 'HTTP'
+          }
+        )
+        .to_return(status: 200, body: '', headers: {})
+
+      conn.get('/', nil, { user_agent: 'Agent Faraday' })
+
+      expect(ssl_context_spy).to have_received(:set_params)
+        .with hash_including(
+          cert: instance_of(OpenSSL::X509::Certificate),
+          key: instance_of(OpenSSL::PKey::RSA)
+        )
     end
   end
 
