@@ -49,8 +49,13 @@ module Faraday
       def request_with_wrapped_block(response, env)
         return unless block_given?
 
-        while (chunk = response.body.readpartial)
+        loop do
+          chunk = response.body.readpartial
+          break if chunk.nil? # http.rb < 6
+
           yield(chunk, env)
+        rescue EOFError # http.rb >= 6
+          break
         end
       end
 
