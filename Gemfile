@@ -14,5 +14,5 @@ group :lint, :development do
   gem 'rubocop-packaging'
   gem 'rubocop-performance'
   gem 'simplecov'
-  gem 'webmock'
+  gem 'webmock', '>= 3.26.2'
 end

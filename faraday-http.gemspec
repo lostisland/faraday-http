@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'faraday', '~> 2.5'
-  spec.add_dependency 'http', '>= 4.0', '< 6'
+  spec.add_dependency 'http', '>= 4.0', '< 7'
 end
